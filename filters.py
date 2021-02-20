@@ -14,9 +14,10 @@ the supplied `CloseApproach`.
 The `limit` function simply limits the maximum number of values produced by an
 iterator.
 
-You'll edit this file in Tasks 3a and 3c.
+
 """
 import operator
+from itertools import islice
 
 
 class UnsupportedCriterionError(NotImplementedError):
@@ -72,6 +73,45 @@ class AttributeFilter:
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, value={self.value})"
 
 
+class DistanceFilter(AttributeFilter):
+    """A class for creating filters on the distance attribute."""
+
+    @classmethod
+    def get(cls, approach):
+        return approach.distance
+
+
+class VelocityFilter(AttributeFilter):
+    """A class for creating filters on the velocity attribute."""
+
+    @classmethod
+    def get(cls, approach):
+        return approach.velocity
+
+
+class DateFilter(AttributeFilter):
+    """A class for creating filters on the date part of the time attribute."""
+
+    @classmethod
+    def get(cls, approach):
+        return approach.time.date()
+
+
+class DiameterFilter(AttributeFilter):
+    """A class for creating filters on the diameter of the neo attribute."""
+
+    @classmethod
+    def get(cls, approach):
+        return approach.neo.diameter
+    
+class HazardousFilter(AttributeFilter):
+    """A class for creating filters on the diameter of the neo attribute."""
+
+    @classmethod
+    def get(cls, approach):
+        return approach.neo.hazardous
+
+
 def create_filters(date=None, start_date=None, end_date=None,
                    distance_min=None, distance_max=None,
                    velocity_min=None, velocity_max=None,
@@ -107,7 +147,25 @@ def create_filters(date=None, start_date=None, end_date=None,
     :return: A collection of filters for use with `query`.
     """
     # TODO: Decide how you will represent your filters.
-    return ()
+    filters = set()
+    arguments = locals()
+    FILTER_FUNCTIONS = {
+        "date": DateFilter(operator.eq, date),
+        "start_date": DateFilter(operator.ge, start_date),
+        "end_date": DateFilter(operator.le, end_date),
+        "distance_min": DistanceFilter(operator.ge, distance_min),
+        "distance_max": DistanceFilter(operator.le, distance_max),
+        "velocity_min": VelocityFilter(operator.ge, velocity_min),
+        "velocity_max": VelocityFilter(operator.le, velocity_max),
+        "diameter_min": DiameterFilter(operator.ge, diameter_min),
+        "diameter_max": DiameterFilter(operator.le, diameter_max),
+        "hazardous": HazardousFilter(operator.eq, hazardous)   
+    }
+    for key, value in arguments.items():
+        if value:
+            filters.add(FILTER_FUNCTIONS.get("value"))
+
+    return filters
 
 
 def limit(iterator, n=None):
@@ -120,4 +178,4 @@ def limit(iterator, n=None):
     :yield: The first (at most) `n` values from the iterator.
     """
     # TODO: Produce at most `n` values from the given iterator.
-    return iterator
+    return islice(iterator, n)
