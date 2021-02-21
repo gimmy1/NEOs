@@ -18,7 +18,7 @@ quirks of the data set, such as missing names and unknown diameters.
 
 import pdb
 
-from helpers import cd_to_datetime, datetime_to_str, logger, to_boolean
+from helpers import cd_to_datetime, datetime_to_str, logger, handle_boolean, handle_float, handle_name
 
 
 class NearEarthObject:
@@ -42,9 +42,9 @@ class NearEarthObject:
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
         self.designation = designation
-        self.name = name if name else None
-        self.diameter = float(diameter) if diameter else float("nan")
-        self.hazardous = to_boolean(hazardous) if hazardous else False
+        self.name = handle_name(name)
+        self.diameter = handle_float(diameter, float("nan"))
+        self.hazardous = handle_boolean(hazardous)
 
         # Create an empty initial collection of linked approaches.
         self.approaches = []
@@ -99,8 +99,8 @@ class CloseApproach:
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
         self._designation = designation
-        self.distance = float(distance) if distance else float(0.0)
-        self.velocity = float(velocity) if velocity else float(0.0)
+        self.distance = handle_float(distance, float(0.0))
+        self.velocity = handle_float(velocity, float(0.0))
         try:
             time = cd_to_datetime(time)
         except TypeError as te:
@@ -121,7 +121,7 @@ class CloseApproach:
         includes seconds - significant figures that don't exist in our input
         data set.
 
-        The `datetime_to_str` method converts a `datetime` object to a
+        The `datetime_handle_str` method converts a `datetime` object to a
         formatted string that can be used in human-readable representations and
         in serialization to CSV and JSON files.
         """

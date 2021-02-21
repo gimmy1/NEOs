@@ -16,20 +16,22 @@ import logging
 logger = logging.getLogger("Logger")
 
 
-def to_boolean(val):
+def handle_boolean(val):
     if val == "Y":
         return True
     return False
 
 
-def to_float(val):
+def handle_float(val, default):
     try:
-        if isinstance(val, str):
-            return float(val)
+        return float(val)
     except ValueError as ve:
-        pass
-    finally:
-        return float("nan")
+        return default
+
+def handle_name(val):
+    if not val:
+        return None
+    return val
 
 
 def cd_to_datetime(calendar_date):
