@@ -30,14 +30,13 @@ def load_neos(neo_csv_path):
         for elem in reader:
             designation = elem.get("pdes", None)
             name = elem.get("name", None)
-            diameter = to_float(elem.get("diameter",
-                                float("nan")))
-            hazardous = to_boolean(elem.get("pha", "N"))
+            diameter = elem.get("diameter")
+            hazardous = elem.get("pha")
             result.add(NearEarthObject(
-                designation,
-                name,
-                diameter,
-                hazardous
+                designation=designation,
+                name=name,
+                diameter=diameter,
+                hazardous=hazardous
             ))
     return result
 
@@ -50,15 +49,12 @@ def load_approaches(cad_json_path):
     """
     result = set()
     with open(cad_json_path, "r") as infile:
-        contents = json.load(infile).get("data", None)
-        if contents:
-            for elem in contents:
-                designation = elem[0]
-                time = elem[3]
-                distance = to_float(elem[4])
-                velocity = to_float(elem[7])
-                result.add(CloseApproach(designation,
-                                         time,
-                                         distance,
-                                         velocity))
+        contents = json.load(infile)
+        
+        for elem in contents['data']:
+            result.add(CloseApproach(designation=elem[0],
+                                     time=elem[3],
+                                     distance=elem[4],
+                                     velocity=elem[7]))    
+    
     return result

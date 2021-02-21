@@ -26,7 +26,7 @@ def to_float(val):
         if isinstance(val, str):
             return float(val)
     except ValueError as ve:
-        print(f"Exception occurred: {ve} on value: {val}")
+        pass
     finally:
         return float("nan")
 

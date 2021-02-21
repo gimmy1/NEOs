@@ -160,8 +160,9 @@ def create_filters(date=None, start_date=None, end_date=None,
         "diameter_max": DiameterFilter(operator.le, diameter_max),
         "hazardous": HazardousFilter(operator.eq, hazardous)   
     }
+    # import pdb; pdb.set_trace()
     for key, value in arguments.items():
-        if value:
+        if key in FILTER_FUNCTIONS and value:
             filters.add(FILTER_FUNCTIONS.get(key))
 
     return filters
@@ -174,4 +175,6 @@ def limit(iterator, n=None):
     :yield: The first (at most) `n` values from the iterator.
     """
     # : Produce at most `n` values from the given iterator.
+    if n == 0:
+        n = None
     return islice(iterator, n)

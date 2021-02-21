@@ -16,7 +16,7 @@ data files from NASA, so these objects should be able to handle all of the
 quirks of the data set, such as missing names and unknown diameters.
 """
 
-from helpers import cd_to_datetime, datetime_to_str, logger
+from helpers import cd_to_datetime, datetime_to_str, to_boolean, logger
 import pdb
 
 
@@ -32,15 +32,18 @@ class NearEarthObject:
     initialized to an empty collection, but eventually populated in the
     `NEODatabase` constructor.
     """
-    def __init__(self, designation=None, name=None, diameter=float("nan"), hazardous=False):
+    def __init__(self, designation="",
+                       name=None,
+                       diameter=float("nan"),
+                       hazardous=False):
         """Create a new `NearEarthObject`.
 
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
         self.designation = designation
-        self.name = name
-        self.diameter = diameter
-        self.hazardous = hazardous
+        self.name = name if name else None
+        self.diameter = float(diameter) if diameter else float("nan")
+        self.hazardous = to_boolean(hazardous) if hazardous else False
 
         # Create an empty initial collection of linked approaches.
         self.approaches = []
@@ -84,14 +87,17 @@ class CloseApproach:
     private attribute, but the referenced NEO is eventually replaced in the
     `NEODatabase` constructor.
     """
-    def __init__(self, designation, time=None, distance=float(0.0), velocity=float(0.0)):
+    def __init__(self, designation,
+                       time=None,
+                       distance=float(0.0),
+                       velocity=float(0.0)):
         """Create a new `CloseApproach`.
 
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
         self._designation = designation
-        self.distance = distance
-        self.velocity = velocity
+        self.distance = float(distance) if distance else float(0.0)
+        self.velocity = float(velocity) if velocity else float(0.0)
         try:
             time = cd_to_datetime(time)
         except TypeError as te:
@@ -131,8 +137,8 @@ class CloseApproach:
 
     def serialize(self):
         return {
-            "designation": self._designation,
             "distance_au": self.distance,
             "velocity_km_s": self.velocity,
-            "datetime_utc": self.time
+            "datetime_utc": datetime_to_str(self.time),
+            "neo": self.neo.serialize()
         }

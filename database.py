@@ -36,9 +36,9 @@ class NEODatabase:
             self.neos_name[neo.name] = neo
         
         for ca in self._approaches:
-            if ca._designation in self.neos:
-                self.neos[ca.designation].approaches.append(ca)
-                ca.neo = self.neos[ca.designation]
+            if ca._designation in self.neos_designation:
+                self.neos_designation[ca._designation].approaches.append(ca)
+                ca.neo = self.neos_designation[ca._designation]
 
 
     def get_neo_by_designation(self, designation):
@@ -46,7 +46,7 @@ class NEODatabase:
         :param designation: The primary designation of the NEO to search for.
         :return: The `NearEarthObject` with the desired primary designation, or `None`.
         """
-        return self.neos.get(designation, None)
+        return self.neos_designation.get(designation, None)
 
     def get_neo_by_name(self, name):
         """
@@ -54,7 +54,7 @@ class NEODatabase:
         :return: The `NearEarthObject` with the desired name, or `None`.
         """
         # : Fetch an NEO by its name.
-        return self.neos.get(name, None)
+        return self.neos_name.get(name, None)
 
     def query(self, filters=()):
         """
@@ -62,5 +62,6 @@ class NEODatabase:
         :return: A stream of matching `CloseApproach` objects.
         """
         for approach in self._approaches:
-            if all([filter(approach) for _filter in filters]):
+            flags = list(map((lambda x: x(approach)), filters))
+            if all(flags):
                 yield approach
