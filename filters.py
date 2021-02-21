@@ -39,6 +39,7 @@ class AttributeFilter:
     Concrete subclasses can override the `get` classmethod to provide custom
     behavior to fetch a desired attribute from the given `CloseApproach`.
     """
+
     def __init__(self, op, value):
         """Construct a new `AttributeFilter` from an binary predicate and a reference value.
 
@@ -103,7 +104,8 @@ class DiameterFilter(AttributeFilter):
     @classmethod
     def get(cls, approach):
         return approach.neo.diameter
-    
+
+
 class HazardousFilter(AttributeFilter):
     """Class for creating filters on the diameter of the neo attribute."""
 
@@ -112,11 +114,18 @@ class HazardousFilter(AttributeFilter):
         return approach.neo.hazardous
 
 
-def create_filters(date=None, start_date=None, end_date=None,
-                   distance_min=None, distance_max=None,
-                   velocity_min=None, velocity_max=None,
-                   diameter_min=None, diameter_max=None,
-                   hazardous=None):
+def create_filters(
+    date=None,
+    start_date=None,
+    end_date=None,
+    distance_min=None,
+    distance_max=None,
+    velocity_min=None,
+    velocity_max=None,
+    diameter_min=None,
+    diameter_max=None,
+    hazardous=None,
+):
     """
     Each of these arguments is provided by the main module with a value from the
     user's options at the command line. Each one corresponds to a different type
@@ -158,9 +167,8 @@ def create_filters(date=None, start_date=None, end_date=None,
         "velocity_max": VelocityFilter(operator.le, velocity_max),
         "diameter_min": DiameterFilter(operator.ge, diameter_min),
         "diameter_max": DiameterFilter(operator.le, diameter_max),
-        "hazardous": HazardousFilter(operator.eq, hazardous)   
+        "hazardous": HazardousFilter(operator.eq, hazardous),
     }
-    # import pdb; pdb.set_trace()
     for key, value in arguments.items():
         if key in FILTER_FUNCTIONS and value:
             filters.add(FILTER_FUNCTIONS.get(key))

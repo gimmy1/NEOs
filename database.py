@@ -10,7 +10,9 @@ data on NEOs and close approaches extracted by `extract.load_neos` and
 `extract.load_approaches`.
 """
 from collections import defaultdict
-from models import NearEarthObject, CloseApproach
+
+from models import CloseApproach, NearEarthObject
+
 
 class NEODatabase:
     """A database of near-Earth objects and their close approaches.
@@ -20,6 +22,7 @@ class NEODatabase:
     help fetch NEOs by primary designation or by name and to help speed up
     querying for close approaches that match criteria.
     """
+
     def __init__(self, neos, approaches):
         """
         :param neos: A collection of `NearEarthObject`s.
@@ -34,12 +37,11 @@ class NEODatabase:
         for neo in self._neos:
             self.neos_designation[neo.designation] = neo
             self.neos_name[neo.name] = neo
-        
+
         for ca in self._approaches:
             if ca._designation in self.neos_designation:
                 self.neos_designation[ca._designation].approaches.append(ca)
                 ca.neo = self.neos_designation[ca._designation]
-
 
     def get_neo_by_designation(self, designation):
         """

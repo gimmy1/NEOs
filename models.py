@@ -16,8 +16,9 @@ data files from NASA, so these objects should be able to handle all of the
 quirks of the data set, such as missing names and unknown diameters.
 """
 
-from helpers import cd_to_datetime, datetime_to_str, to_boolean, logger
 import pdb
+
+from helpers import cd_to_datetime, datetime_to_str, logger, to_boolean
 
 
 class NearEarthObject:
@@ -32,10 +33,10 @@ class NearEarthObject:
     initialized to an empty collection, but eventually populated in the
     `NEODatabase` constructor.
     """
-    def __init__(self, designation="",
-                       name=None,
-                       diameter=float("nan"),
-                       hazardous=False):
+
+    def __init__(
+        self, designation="", name=None, diameter=float("nan"), hazardous=False
+    ):
         """Create a new `NearEarthObject`.
 
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
@@ -62,15 +63,17 @@ class NearEarthObject:
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""
-        return (f"NearEarthObject(designation={self.designation!r}, name={self.name!r}, "
-                f"diameter={self.diameter:.3f}, hazardous={self.hazardous!r})")
-        
+        return (
+            f"NearEarthObject(designation={self.designation!r}, name={self.name!r}, "
+            f"diameter={self.diameter:.3f}, hazardous={self.hazardous!r})"
+        )
+
     def serialize(self):
         return {
             "designation": self.designation,
             "name": self.name,
             "diameter_km": self.diameter,
-            "potentially_hazardous": self.hazardous 
+            "potentially_hazardous": self.hazardous,
         }
 
 
@@ -87,10 +90,10 @@ class CloseApproach:
     private attribute, but the referenced NEO is eventually replaced in the
     `NEODatabase` constructor.
     """
-    def __init__(self, designation,
-                       time=None,
-                       distance=float(0.0),
-                       velocity=float(0.0)):
+
+    def __init__(
+        self, designation, time=None, distance=float(0.0), velocity=float(0.0)
+    ):
         """Create a new `CloseApproach`.
 
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
@@ -123,7 +126,7 @@ class CloseApproach:
         in serialization to CSV and JSON files.
         """
         if self.time:
-            return f'{datetime_to_str(self.time)}'
+            return f"{datetime_to_str(self.time)}"
         return ""
 
     def __str__(self):
@@ -132,13 +135,15 @@ class CloseApproach:
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""
-        return (f"CloseApproach(time={self.time_str!r}, distance={self.distance:.2f}, "
-                f"velocity={self.velocity:.2f}, neo={self.neo!r})")
+        return (
+            f"CloseApproach(time={self.time_str!r}, distance={self.distance:.2f}, "
+            f"velocity={self.velocity:.2f}, neo={self.neo!r})"
+        )
 
     def serialize(self):
         return {
             "distance_au": self.distance,
             "velocity_km_s": self.velocity,
             "datetime_utc": datetime_to_str(self.time),
-            "neo": self.neo.serialize()
+            "neo": self.neo.serialize(),
         }

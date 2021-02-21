@@ -21,6 +21,7 @@ def to_boolean(val):
         return True
     return False
 
+
 def to_float(val):
     try:
         if isinstance(val, str):
