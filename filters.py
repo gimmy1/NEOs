@@ -74,7 +74,7 @@ class AttributeFilter:
 
 
 class DistanceFilter(AttributeFilter):
-    """A class for creating filters on the distance attribute."""
+    """Class for creating filters on the distance attribute."""
 
     @classmethod
     def get(cls, approach):
@@ -82,7 +82,7 @@ class DistanceFilter(AttributeFilter):
 
 
 class VelocityFilter(AttributeFilter):
-    """A class for creating filters on the velocity attribute."""
+    """Class for creating filters on the velocity attribute."""
 
     @classmethod
     def get(cls, approach):
@@ -90,7 +90,7 @@ class VelocityFilter(AttributeFilter):
 
 
 class DateFilter(AttributeFilter):
-    """A class for creating filters on the date part of the time attribute."""
+    """Class for creating filters on the date part of the time attribute."""
 
     @classmethod
     def get(cls, approach):
@@ -98,14 +98,14 @@ class DateFilter(AttributeFilter):
 
 
 class DiameterFilter(AttributeFilter):
-    """A class for creating filters on the diameter of the neo attribute."""
+    """Class for creating filters on the diameter of the neo attribute."""
 
     @classmethod
     def get(cls, approach):
         return approach.neo.diameter
     
 class HazardousFilter(AttributeFilter):
-    """A class for creating filters on the diameter of the neo attribute."""
+    """Class for creating filters on the diameter of the neo attribute."""
 
     @classmethod
     def get(cls, approach):
@@ -117,8 +117,7 @@ def create_filters(date=None, start_date=None, end_date=None,
                    velocity_min=None, velocity_max=None,
                    diameter_min=None, diameter_max=None,
                    hazardous=None):
-    """Create a collection of filters from user-specified criteria.
-
+    """
     Each of these arguments is provided by the main module with a value from the
     user's options at the command line. Each one corresponds to a different type
     of filter. For example, the `--date` option corresponds to the `date`
@@ -146,7 +145,7 @@ def create_filters(date=None, start_date=None, end_date=None,
     :param hazardous: Whether the NEO of a matching `CloseApproach` is potentially hazardous.
     :return: A collection of filters for use with `query`.
     """
-    # TODO: Decide how you will represent your filters.
+    # : Decide how you will represent your filters.
     filters = set()
     arguments = locals()
     FILTER_FUNCTIONS = {
@@ -163,19 +162,16 @@ def create_filters(date=None, start_date=None, end_date=None,
     }
     for key, value in arguments.items():
         if value:
-            filters.add(FILTER_FUNCTIONS.get("value"))
+            filters.add(FILTER_FUNCTIONS.get(key))
 
     return filters
 
 
 def limit(iterator, n=None):
-    """Produce a limited stream of values from an iterator.
-
-    If `n` is 0 or None, don't limit the iterator at all.
-
+    """
     :param iterator: An iterator of values.
     :param n: The maximum number of values to produce.
     :yield: The first (at most) `n` values from the iterator.
     """
-    # TODO: Produce at most `n` values from the given iterator.
+    # : Produce at most `n` values from the given iterator.
     return islice(iterator, n)
