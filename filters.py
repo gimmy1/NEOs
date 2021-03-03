@@ -170,7 +170,7 @@ def create_filters(
         "hazardous": HazardousFilter(operator.eq, hazardous),
     }
     for key, value in arguments.items():
-        if key in FILTER_FUNCTIONS and value:
+        if key in FILTER_FUNCTIONS and value is not None:
             filters.add(FILTER_FUNCTIONS.get(key))
 
     return filters

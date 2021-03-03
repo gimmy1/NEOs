@@ -602,7 +602,7 @@ class TestQuery(unittest.TestCase):
         velocity_min = 5
         diameter_max = 1.5
         diameter_min = 0.5
-
+        # import pdb; pdb.set_trace()
         expected = set(
             approach
             for approach in self.approaches
