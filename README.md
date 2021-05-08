@@ -18,23 +18,6 @@ When complete, you'll be able to inspect the properties of the near-Earth object
 - Has a diameter that is at least as large as (or at least as small as) Z kilometers.
 - Is marked by NASA as potentially hazardous (or not).
 
-### Learning Objectives
-
-By completing this project, you'll have demonstrated an ability to:
-
-- Represent structured data in Python.
-- Extract data from structured files into Python.
-- Transform the data within Python according to some desired behavior.
-- Save the results in a structured way to a file.
-
-Along the way, you'll have to be able to:
-
-- Write Python functions to transform data and perform algorithms.
-- Design Python classes to encapsulate useful data types.
-- Provide interface abstractions for complex implementations.
-
-It's normal to encounter bugs along the way, so in all likelihood, you'll also gain practice with valuable debugging skills, whether interpreting stack traces, chasing down system errors, handling and raising appropriate errors, walking through code with `pdb`, checking preconditions with `assert`, or simply displaying internal state with `print`.
-
 ## Understanding the Near-Earth Object Close Approach Datasets
 
 This project contains two important data sets, and our first step will be to explore and understand the data containing within these structured files.
