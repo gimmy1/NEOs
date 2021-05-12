@@ -1022,17 +1022,3 @@ Ran 4 tests in X.XXXs
 
 OK
 ```
-
-If any of the tests fail, you should fix the causes of error before beginning this project.
-
-## Deliverables
-
-Upon completing this project, you'll have modified at least `models.py`, `read.py`, `database.py`, `filters.py`, and `write.py`. If you went above-and-beyond with any Stand Out Suggestions, include your changes alongside an EXTENSIONS.md file describing your changes so that the reviewers can understand what you've done.
-
-Over the course of this project (specifically, in Task 4), you've likely created several output files. You should remove these files before submitting your project.
-
-### Rubric
-
-In addition to the functionality requirements detailed above, your submission will be assessed on how well it follows best practices in Python. Roughly speaking, "best practices" can be divided into two categories - mechanics and design. Good Python mechanics adhere to [PEP 8](https://www.python.org/dev/peps/pep-0008/) - the style guide for Python code - and [PEP 257](https://www.python.org/dev/peps/pep-0257/) - docstring conventions. These address rules for naming, spacing, commenting, and several common programming patterns. Additionally, good general programming mechanics that you are expected to follow include removing starter code markings, removing extraneous print statements, and documenting your code. Python design refers to the higher-level organization of your code - the interfaces and implementation boundaries defined by your code objects. Many interface and implementation boundaries are already imposed by the organization of the starter code; however, there are still several situations (particularly in Tasks 3 and 4) in which the organization of your code can reflect poorly on or reflect well on the organization of the problem and your choice of solution.
-
-Complete details on grading criteria are available in the attached rubric.
